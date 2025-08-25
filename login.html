@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoIP-Tech Login</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/login.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="logo-container">
+                    <div class="logo">
+                        <img src="./assets/logo-w.png" class="logo" alt="VoipTech">
+                    </div>
+                    <div class="tagline">Smart VoIP & Cloud Tools to Empower Real-Time Communication</div>
+                </div>
+                
+                <div class="login-container">
+                    <h2 class="login-title">Login</h2>
+                    
+                    <form id="loginForm">
+                        <div class="mb-2">
+                            <label for="agentId" class="form-label">Agent ID</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" style="border-top-right-radius: 8px !important;    border-bottom-right-radius: 8px !important;" id="agentId" placeholder="AG08598" value="AG08598">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <label for="agentPassword" class="form-label">Agent Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" style="border-top-right-radius: 8px !important;   border-bottom-right-radius: 8px !important;" id="agentPassword" placeholder="••••••••">
+                                <span class="input-group-text password-toggle" onclick="togglePassword()">
+                                    <i class="fas fa-eye" id="toggleIcon"></i>
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="campaign" class="form-label">Campaign</label>
+                            <select class="form-select" id="campaign">
+                                <option value="2222">2222 - Outbound</option>
+                                <option value="2223">2223 - Inbound</option>
+                                <option value="2224">2224 - Blended</option>
+                                <option value="2225">2225 - Support</option>
+                            </select>
+                        </div>
+
+                        <div class="button-b">
+                            <button type="button" class="btn btn-refresh" onclick="refreshCampaign()">
+                                Refresh Campaign
+                            </button>
+                            
+                            <button type="submit" class="btn btn-login">
+                                Log In
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('agentPassword');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.className = 'fas fa-eye';
+            }
+        }
+
+        function refreshCampaign() {
+            const campaignSelect = document.getElementById('campaign');
+            const refreshBtn = document.querySelector('.btn-refresh');
+            const refreshIcon = refreshBtn.querySelector('.fas');
+            
+            // Add spinning animation
+            refreshIcon.style.animation = 'spin 1s linear infinite';
+            refreshBtn.disabled = true;
+            
+            // Simulate refresh delay
+            setTimeout(() => {
+                refreshIcon.style.animation = '';
+                refreshBtn.disabled = false;
+                
+                // Optional: Show success message
+                const originalText = refreshBtn.innerHTML;
+                refreshBtn.innerHTML = '<i class="fas fa-check me-2"></i>Campaign Refreshed';
+                refreshBtn.style.background = '#27ae60';
+                
+                setTimeout(() => {
+                    refreshBtn.innerHTML = originalText;
+                    refreshBtn.style.background = '';
+                }, 2000);
+            }, 1500);
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const agentId = document.getElementById('agentId').value;
+            const password = document.getElementById('agentPassword').value;
+            const campaign = document.getElementById('campaign').value;
+            
+            if (!agentId || !password) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            const loginBtn = document.querySelector('.btn-login');
+            const originalText = loginBtn.innerHTML;
+            
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Logging In...';
+            loginBtn.disabled = true;
+            
+            // Simulate login process
+            setTimeout(() => {
+                loginBtn.innerHTML = '<i class="fas fa-check me-2"></i>Login Successful!';
+                loginBtn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+                
+                setTimeout(() => {
+                    alert('Login successful! Redirecting to dashboard...');
+                    loginBtn.innerHTML = originalText;
+                    loginBtn.style.background = '';
+                    loginBtn.disabled = false;
+                }, 2000);
+            }, 2000);
+        });
+
+        // Add CSS animation for spinning
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Add subtle entrance animation
+        window.addEventListener('load', function() {
+            const loginContainer = document.querySelector('.login-container');
+            const logoContainer = document.querySelector('.logo-container');
+            
+            loginContainer.style.opacity = '0';
+            loginContainer.style.transform = 'translateY(30px)';
+            logoContainer.style.opacity = '0';
+            logoContainer.style.transform = 'translateY(-30px)';
+            
+            setTimeout(() => {
+                logoContainer.style.transition = 'all 0.8s ease';
+                logoContainer.style.opacity = '1';
+                logoContainer.style.transform = 'translateY(0)';
+            }, 200);
+            
+            setTimeout(() => {
+                loginContainer.style.transition = 'all 0.8s ease';
+                loginContainer.style.opacity = '1';
+                loginContainer.style.transform = 'translateY(0)';
+            }, 400);
+        });
+    </script>
+</body>
+</html>

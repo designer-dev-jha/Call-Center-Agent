@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disposition Call</title>
+    
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+    <button class="trigger-btn" onclick="openPopup()">
+        In-group Section
+    </button>
+
+    <div class="overlay" id="overlay" onclick="closePopup(event)">
+        <div class="popup" onclick="event.stopPropagation()">
+            <div class="popup-header">
+                <div class="popup-title">
+                    In-group Section
+                </div>
+                <div class="header-actions">
+                    <button class="header-btn minimize-btn" onclick="minimizePopup()" title="Minimize">
+                        <i class="ri-subtract-line"></i>
+                    </button>
+                    <button class="close-btn" onclick="closePopup()" title="Close">&times;</button>
+                </div>
+            </div>
+            
+            <div class="popup-content">
+                <form id="dispositionForm">
+                    <div class="disposition-grid-3">
+                        <!-- Call Status -->
+                        <div class="disposition-section">
+                            <div class="heading" 
+                                style="display: flex; align-items: center; justify-content: space-between; 
+                                        padding: 10px 15px; border-bottom: 1px solid #ddd;">
+                                <h3 style="margin: 0; font-size: 16px; font-weight: 600; color: #333;">
+                                    Group Not Selected
+                                </h3>
+                                <div style="font-size: 14px; font-weight: 500; color: #007bff; cursor: pointer;">
+                                    Add All
+                                </div>
+                            </div>
+                            <div class="body" style="padding: 12px;">
+                                <div class="disposition-option active">
+                                    <label for="answering">A - Answering Machine</label>
+                                </div>
+
+                                <div class="disposition-option">
+                                    <label for="busy">B - Busy</label>
+                                </div>
+
+                                <div class="disposition-option">
+                                    <label for="callback">CALLBK - Call Back</label>
+                                </div>
+
+                                <div class="disposition-option">
+                                    <label for="deadair">DAIR - Dead Air</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Middle Icon -->
+                        <div class="disposition-section icon-section" style="display: flex; align-items: center; justify-content: center; height: 100%; border: none; background-color: transparent;">
+                        <label for="notinterested">
+                            <i class="ri-exchange-fill"></i>
+                        </label>
+                        </div>
+
+                        <!-- Customer Response -->
+                        <div class="disposition-section">
+                            <div class="heading" 
+                                style="display: flex; align-items: center; justify-content: space-between; 
+                                        padding: 10px 15px; border-bottom: 1px solid #ddd;">
+                                <h3 style="margin: 0; font-size: 16px; font-weight: 600; color: #333;">
+                                    Selected Group
+                                </h3>
+                                <div style="font-size: 14px; font-weight: 500; color: #007bff; cursor: pointer;">
+                                    Remove All
+                                </div>
+                            </div>
+
+                            <div class="body" style="padding: 12px;">
+                                <div class="disposition-option">
+                                    <label for="declined">DEC - Declined Sale</label>
+                                </div>
+
+                                <div class="disposition-option">
+                                    <label for="donotcall">DNC - DO NOT CALL</label>
+                                </div>
+
+                                <div class="disposition-option">
+                                    <label for="noanswer">N - No Answer</label>
+                                </div>
+
+                                <div class="disposition-option">
+                                    <label for="notinterested">NI - Not Interested</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                     <div class="actions">
+                        <div class="pause-section">
+                            <input type="checkbox" id="pauseAgent" class="pause-checkbox">
+                            <label for="pauseAgent">BLENDED CALLING(outbound activated)</label>
+                        </div>
+                        
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-secondary" onclick="clearForm()">Reset</button>
+                            <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Submit</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Timer variables
+        let callStartTime;
+        let timerInterval;
+        
+        function openPopup() {
+            const overlay = document.getElementById('overlay');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Start call timer
+            startCallTimer();
+        }
+
+        function closePopup(event) {
+            if (event && event.target !== document.getElementById('overlay')) return;
+            
+            const overlay = document.getElementById('overlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // Stop call timer
+            stopCallTimer();
+        }
+
+        function minimizePopup() {
+            alert("Minimize functionality would be implemented here");
+            // In a real application, this would minimize the popup to a taskbar or similar
+        }
+
+        function hangupCall() {
+            if (confirm("Are you sure you want to hang up this call?")) {
+                // In a real application, this would terminate the call
+                alert("Call has been terminated");
+                closePopup();
+                clearForm();
+            }
+        }
+
+        function startCallTimer() {
+            callStartTime = new Date();
+            updateCallTimer();
+            timerInterval = setInterval(updateCallTimer, 1000);
+        }
+
+        function stopCallTimer() {
+            clearInterval(timerInterval);
+        }
+
+        function updateCallTimer() {
+            const now = new Date();
+            const elapsed = new Date(now - callStartTime);
+            const minutes = elapsed.getUTCMinutes().toString().padStart(2, '0');
+            const seconds = elapsed.getUTCSeconds().toString().padStart(2, '0');
+            document.getElementById('callTimer').textContent = `${minutes}:${seconds}`;
+        }
+
+        // Handle disposition selection
+        document.addEventListener('DOMContentLoaded', function() {
+            const radioButtons = document.querySelectorAll('input[name="disposition"]');
+            const submitBtn = document.getElementById('submitBtn');
+            const dispositionOptions = document.querySelectorAll('.disposition-option');
+
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // Remove selected class from all options
+                    dispositionOptions.forEach(option => {
+                        option.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to current option
+                    if (this.checked) {
+                        this.closest('.disposition-option').classList.add('selected');
+                        submitBtn.disabled = false;
+                    }
+                });
+            });
+
+            // Handle form submission
+            document.getElementById('dispositionForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const selectedDisposition = document.querySelector('input[name="disposition"]:checked');
+                const pauseAgent = document.getElementById('pauseAgent').checked;
+                
+                if (selectedDisposition) {
+                    // Simulate form submission
+                    submitBtn.textContent = 'Submitting...';
+                    submitBtn.disabled = true;
+                    
+                    setTimeout(() => {
+                        alert(`Disposition "${selectedDisposition.value}" submitted successfully!`);
+                        closePopup();
+                        clearForm();
+                        submitBtn.textContent = 'Submit';
+                    }, 1000);
+                }
+            });
+        });
+
+        function clearForm() {
+            const form = document.getElementById('dispositionForm');
+            const dispositionOptions = document.querySelectorAll('.disposition-option');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            form.reset();
+            dispositionOptions.forEach(option => {
+                option.classList.remove('selected');
+            });
+            submitBtn.disabled = true;
+        }
+
+        // Close popup with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePopup();
+            }
+        });
+    </script>
+</body>
+</html>

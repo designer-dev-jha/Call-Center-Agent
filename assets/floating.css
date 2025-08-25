@@ -1,0 +1,340 @@
+/* Floating Phone UI Styles */
+
+/* Floating Phone Button */
+.float-phone-btn {
+    position: fixed;
+    bottom: 10px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #20c997, #17a2b8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    box-shadow: 0 8px 25px rgba(32, 201, 151, 0.4);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1100;
+    border: none;
+    user-select: none;
+}
+
+.float-phone-btn:hover {
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 12px 35px rgba(32, 201, 151, 0.5);
+}
+
+.float-phone-btn:active {
+    transform: scale(0.95);
+}
+
+.float-phone-btn.active {
+    background: linear-gradient(135deg, #ff4757, #ff3838);
+    transform: rotate(45deg);
+}
+
+/* Floating Phone Dropdown */
+.float-phone-dropdown {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    width: 280px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.9);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1050;
+    overflow: hidden;
+}
+
+.float-phone-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+/* Phone Header */
+.float-phone-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #F0FDFA;
+    color: #475569;
+    font-weight: 600;
+    padding: 8px 16px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.float-phone-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.float-status-dot {
+    width: 8px;
+    height: 8px;
+    background: #16DBBD;
+    border-radius: 50%;
+    animation: float-pulse 2s infinite;
+}
+
+@keyframes float-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.float-phone-signal {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.float-signal-bars {
+    display: flex;
+    gap: 2px;
+    align-items: end;
+}
+
+.float-signal-bar {
+    width: 3px;
+    background: #475569;
+    border-radius: 1px;
+}
+
+.float-signal-bar:nth-child(1) { height: 4px; }
+.float-signal-bar:nth-child(2) { height: 6px; }
+.float-signal-bar:nth-child(3) { height: 8px; }
+.float-signal-bar:nth-child(4) { height: 10px; }
+
+/* Phone Body */
+.float-phone-body {
+    margin: 6px 12px 12px;
+    padding: 16px 20px;
+    border: solid 1px #042F2E10;
+    border-radius: 0 0 8px 8px;
+}
+
+.float-phone-body-2 {
+    margin: 12px 12px 6px;
+    padding: 16px 20px;
+    border: solid 1px #042F2E10;
+    border-radius: 8px 8px 0 0;
+}
+
+/* Call Controls */
+.float-call-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.float-control-btn {
+    width: 100%;
+    height: 28px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.float-control-btn.mute {
+    background: #f8f9fa;
+    color: #6c757d;
+    border: 1px solid #e9ecef;
+}
+
+.float-control-btn.mute:hover {
+    background: #6c757d;
+    color: white;
+    transform: scale(1.1);
+}
+
+.float-control-btn.volume-up {
+    background: #F0FDFA;
+    color: #16DBBD;
+    border: 1px solid #042F2E10;
+}
+
+.float-control-btn.volume-up:hover {
+    background: #16DBBD;
+    color: white;
+    transform: scale(1.1);
+}
+
+.float-control-btn.volume-down {
+    background: #F0FDFA;
+    color: #16DBBD;
+    border: 1px solid #042F2E10;
+}
+
+.float-control-btn.volume-down:hover {
+    background: #16DBBD;
+    color: white;
+    transform: scale(1.1);
+}
+
+.float-control-btn.call {
+    background: #16DBBD;
+    color: white;
+    width: 60px;
+    height: 40px;
+    font-size: 1.5rem;
+}
+
+.float-control-btn.call:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(32, 201, 151, 0.4);
+}
+
+/* Number Keypad */
+.float-number-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.float-input-send {
+    display: flex;
+    gap: 10px;
+    height: 40px;
+}
+
+.float-input-call {
+    display: flex;
+    height: 40px;
+    margin: 8px 0;
+}
+
+.float-key-btn {
+    aspect-ratio: 1;
+    border: none;
+    background: #f8f9fa;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #495057;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    max-height: 50px;
+    margin: 0 4px;
+}
+
+.float-key-btn:hover {
+    background: #e9ecef;
+    transform: scale(1.05);
+}
+
+.float-key-btn:active {
+    transform: scale(0.95);
+    background: #dee2e6;
+}
+
+.float-key-btn.zero {
+    grid-column: 2;
+}
+
+/* Action Button */
+.float-action-btn {
+    position: relative;
+    width: 60px;
+    height: 40px;
+    background: #16DBBD;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.float-action-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(32, 201, 151, 0.4);
+}
+
+/* Close Button */
+.float-close-btn {
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+    width: 50px;
+    height: 50px;
+    background: #495057;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.float-close-btn:hover {
+    background: #343a40;
+    transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .float-phone-dropdown {
+        right: 10px;
+        left: 10px;
+        width: auto;
+        bottom: 90px;
+    }
+    
+    .float-phone-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+}
+
+/* Backdrop */
+.float-phone-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1040;
+}
+
+.float-phone-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}

@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoipTech - Call Center Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/floating.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container-fluid">
+            <div class="d-flex">
+                <button class="navbar-toggler sidebar-toggle" type="button" id="sidebarToggle">
+                    <i class="ri-menu-line"></i>
+                </button>
+                <img src="./assets/logo-main.png" alt="logo">
+            </div>
+            <div class="navbar-nav d-none d-sm-flex align-items-center w-100 justify-content-end gap-2" style="border-right: solid #D9D9D9; padding-right: 10px;">
+                <div class="call-status d-flex align-items-center gap-3">
+                    <span class="call-text text-muted">No Live Call</span>
+
+                    <div class="active-call-indicator position-relative">
+                        <span class="wave-circle"></span>
+                        <span class="active-call-text">Live Call</span>
+                    </div>
+
+                    <span class="call-text text-danger">Hang Up</span>
+                </div>
+
+            </div>
+            <div class="navbar-nav ms-auto d-none d-sm-block">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" style="border: solid 1px #D9D9D9;">
+                        <i class="ri-user-line user-icon"></i>
+                        AG8005
+                    </a>
+                    <ul class="dropdown-menu" style="min-width: 120px;">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar custom-scroll">
+    <!-- Agent Card -->
+    <div class="agent-card">
+        <div class="d-flex align-items-center mb-2">
+            <div class="bg-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 35px; height: 36px;">
+                <span class="fw-bold" style="color: #20c997;">DJ</span>
+            </div>
+            <div>
+                <div class="fw-bold mb-0">Dev Jha</div>
+                <small style="font-size: 0.75rem; margin-top: 0px;">+91 950707XXXX</small>
+            </div>
+        </div>
+        <div class="status-badge">
+            <i class="ri-phone-line me-1"></i>
+            Talking: 02:49
+        </div>
+        <small class="d-block mt-1 opacity-75" style="font-size: 0.65rem;">Outbound Call / Support Call Queue</small>
+    </div>
+
+    <!-- Call Controls -->
+    <div class="nav-section">
+        <div class="nav-section-title">Call Controls</div>
+        <div class="nav-item">
+            <div class="nav-link active">
+                <img src="./assets/icon/resume.svg" style="width: 20px; height: 20px; margin-right: 10px;" alt="Resume">
+                Resume
+            </div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-link">
+                <img src="./assets/icon/park.svg" style="width: 20px; height: 20px; margin-right: 10px;" alt="Park">
+                Park
+            </div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-link">
+                <i class="ri-share-forward-line"></i>
+                Transfer
+            </div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-link">
+                <img src="./assets/icon/handup.svg" alt="Hang-UP" style="width: 20px; height: 20px; margin-right: 10px;">
+                Hang-UP
+            </div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-link">
+                <i class="ri-mic-off-line"></i>
+                Mute
+            </div>
+        </div>
+    </div>
+
+    <!-- Others -->
+    <div class="nav-section">
+        <div class="nav-section-title">Others</div>
+        <div class="nav-item">
+            <div class="nav-link" id="manualDialLink">
+                <img src="./assets/icon/manualdial.svg" alt="Manual Dial">
+                Manual Dial
+            </div>
+            <!-- Dialer Dropdown -->
+            <div class="dialer-dropdown" id="dialerDropdown">
+                <div class="dialer-header">
+                    <h6 class="mb-0">
+                        <i class="ri-phone-line me-2"></i>Manual Dialer
+                    </h6>
+                    <button type="button" class="btn-close-white" id="closeDialer">
+                        <i class="ri-close-line"></i>
+                    </button>
+                </div>
+                
+                <!-- Phone Number Display -->
+                <div class="dialer-display" id="phoneDisplay">
+                    Enter number...
+                </div>
+                
+                <!-- Keypad -->
+                <div class="dialer-keypad">
+                    <div class="keypad-row">
+                        <button type="button" class="keypad-btn" data-number="1">1</button>
+                        <button type="button" class="keypad-btn" data-number="2">2</button>
+                        <button type="button" class="keypad-btn" data-number="3">3</button>
+                    </div>
+                    <div class="keypad-row">
+                        <button type="button" class="keypad-btn" data-number="4">4</button>
+                        <button type="button" class="keypad-btn" data-number="5">5</button>
+                        <button type="button" class="keypad-btn" data-number="6">6</button>
+                    </div>
+                    <div class="keypad-row">
+                        <button type="button" class="keypad-btn" data-number="7">7</button>
+                        <button type="button" class="keypad-btn" data-number="8">8</button>
+                        <button type="button" class="keypad-btn" data-number="9">9</button>
+                    </div>
+                    <div class="keypad-row">
+                        <button type="button" class="keypad-btn" data-number="*">✱</button>
+                        <button type="button" class="keypad-btn" data-number="0">
+                            0
+                            <span class="sub-text">+</span>
+                        </button>
+                        <button type="button" class="keypad-btn" data-number="#">#</button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="dialer-actions">
+                    <button type="button" class="action-btn clear-btn" id="clearBtn" title="Clear All">
+                        <i class="ri-close-line"></i>
+                    </button>
+                    <button type="button" class="action-btn call-btn" id="callBtn" title="Make Call">
+                        <i class="ri-phone-line"></i>
+                    </button>
+                    <button type="button" class="action-btn backspace-btn" id="backspaceBtn" title="Backspace">
+                        <i class="ri-delete-back-line"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-link">
+                <i class="ri-group-line"></i>
+                Change In Group
+            </div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-link">
+                <i class="ri-file-text-line"></i>
+                Call Report
+            </div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-link">
+                <i class="ri-user-settings-line"></i>
+                Agent Status
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard Stats -->
+        <div class="dashboard-stats">
+            <div class="row">
+                <div class="col-md stat-item">
+                    <div class="stat-icon">
+                        <i class="ri-group-line"></i>
+                    </div>
+                    <div class="stat-value">Ingroup</div>
+                    <div class="stat-label">CALLED</div>
+                </div>
+                <div class="col-md stat-item">
+                    <div class="stat-icon">
+                        <i class="ri-phone-line"></i>
+                    </div>
+                    <div class="stat-value">Call Type</div>
+                    <div class="stat-label">CALLED</div>
+                </div>
+                <div class="col-md stat-item">
+                    <div class="stat-icon">
+                        <i class="ri-time-line"></i>
+                    </div>
+                    <div class="stat-value">Calls in Queue</div>
+                    <div class="stat-label">CALLED</div>
+                </div>
+                <div class="col-md stat-item">
+                    <div class="stat-icon">
+                        <i class="ri-smartphone-line"></i>
+                    </div>
+                    <div class="stat-value">Cust. Phone</div>
+                    <div class="stat-label">950707XXXX</div>
+                </div>
+                <div class="col-md stat-item">
+                    <div class="stat-icon">
+                        <i class="ri-timer-line"></i>
+                    </div>
+                    <div class="stat-value">Duration</div>
+                    <div class="stat-label">DURATION</div>
+                </div>
+                <div class="col-md stat-item">
+                    <div class="stat-icon">
+                        <i class="ri-user-settings-line"></i>
+                    </div>
+                    <div class="stat-value">Agent Status</div>
+                    <div class="stat-label">PAUSED</div>
+                </div>
+                <div class="col-md stat-item">
+                    <div class="stat-icon">
+                        <i class="ri-phone-find-line"></i>
+                    </div>
+                    <div class="stat-value">Calls Dialing</div>
+                    <div class="stat-label">0</div>
+                </div>
+                <div class="col-md stat-item">
+                    <div class="stat-icon">
+                        <i class="ri-pause-circle-line"></i>
+                    </div>
+                    <div class="stat-value">Time On Park</div>
+                    <div class="stat-label">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Customer Information -->
+            <div class="col-lg-6">
+                <div class="info-form">
+                    <h6 class="section-title mb-0">Customer Information</h6>
+                    <div class="customer-form">
+                        <div class="row mb-1">
+                            <div class="col-md-4">
+                                <label class="form-label">First Name:</label>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Middle Name:</label>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Last Name:</label>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-md-4">
+                                <label class="form-label">Title:</label>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Show:</label>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Email:</label>
+                                <input type="email" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-md-6">
+                                <label class="form-label">Address1:</label>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Address2:</label>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-md-4">
+                                <label class="form-label">City:</label>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Store:</label>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Postcode:</label>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-md-4">
+                                <label class="form-label">Province:</label>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Vendor ID:</label>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Gender:</label>
+                                <div class="radio-group mt-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gender" id="male" checked>
+                                        <label class="form-check-label" style="font-size: .75rem;" for="male">Male</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gender" id="female">
+                                        <label class="form-check-label" style="font-size: .75rem;" for="female">Female</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <label class="form-label">Dial Code:</label>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Alt Phone:</label>
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Comments:</label>
+                                <textarea class="form-control" rows="1" placeholder=""></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call Back & Summary -->
+            <div class="col-lg-6" style="padding-left: 5px;">
+                <!-- Call Back For Agent -->
+                <div class="call-summary-table mb-3 custom-scroll">
+                    <div class="section-title">
+                        Call Back For Agent AG8005
+                    </div>
+                    <div class="table-responsive custom-scroll">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Call Back Date</th>
+                                    <th>Number</th>
+                                    <th>Full Name</th>
+                                    <th>Status</th>
+                                    <th>Campaign</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>01</td>
+                                    <td>10 Jan 2025</td>
+                                    <td>950707XXXX</td>
+                                    <td>Dev Jha</td>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                    <td>Cache Server</td>
+                                </tr>
+                                <tr>
+                                    <td>02</td>
+                                    <td>10 Jan 2025</td>
+                                    <td>950707XXXX</td>
+                                    <td>Dev Jha</td>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                    <td>Auth Server</td>
+                                </tr>
+                                <tr>
+                                    <td>03</td>
+                                    <td>10 Jan 2025</td>
+                                    <td>950707XXXX</td>
+                                    <td>Dev Jha</td>
+                                    <td><span class="badge bg-danger">In Active</span></td>
+                                    <td>Web Server 1</td>
+                                </tr>
+                                <tr>
+                                    <td>04</td>
+                                    <td>10 Jan 2025</td>
+                                    <td>950707XXXX</td>
+                                    <td>Dev Jha</td>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                    <td>Web Server 2</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Call Summary Report -->
+                <div class="call-summary-table">
+                    <div class="section-title">
+                        Call Summary Report - AG8005
+                    </div>
+                    <div class="table-responsive custom-scroll">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Call Back Date</th>
+                                    <th>Number</th>
+                                    <th>Full Name</th>
+                                    <th>Status</th>
+                                    <th>Campaign</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>01</td>
+                                    <td>10 Jan 2025</td>
+                                    <td>950707XXXX</td>
+                                    <td>Dev Jha</td>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                    <td>Cache Server</td>
+                                </tr>
+                                <tr>
+                                    <td>02</td>
+                                    <td>10 Jan 2025</td>
+                                    <td>950707XXXX</td>
+                                    <td>Dev Jha</td>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                    <td>Auth Server</td>
+                                </tr>
+                                <tr>
+                                    <td>03</td>
+                                    <td>10 Jan 2025</td>
+                                    <td>950707XXXX</td>
+                                    <td>Dev Jha</td>
+                                    <td><span class="badge bg-danger">In Active</span></td>
+                                    <td>Web Server 1</td>
+                                </tr>
+                                <tr>
+                                    <td>04</td>
+                                    <td>10 Jan 2025</td>
+                                    <td>950707XXXX</td>
+                                    <td>Dev Jha</td>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                    <td>Web Server 2</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+    <footer class="bg-white py-3 mt-3" style="border-radius: 8px; border: solid 1px #042f2e10;">
+        <div class="container-fluid text-center">
+            <small class="text-muted">© Copyright VoipTech Solutions - All Rights Reserved</small>
+        </div>
+    </footer>
+    </div>
+
+    <!-- Backdrop -->
+    <div class="float-phone-backdrop" id="floatPhoneBackdrop"></div>
+
+    <!-- Floating Phone Button -->
+    <button class="float-phone-btn" id="floatPhoneBtn">
+        <i class="ri-phone-fill" id="floatPhoneIcon"></i>
+        <!-- <img src="./assets/icon/web_phone.svg" alt="Floating"> -->
+    </button>
+
+    <!-- Floating Phone Dropdown -->
+    <div class="float-phone-dropdown" id="floatPhoneDropdown">
+        <!-- Phone Header -->
+         <div class="float-phone-body-2 gap-2">
+            <div class="float-phone-header">
+                <div class="float-phone-status">
+                    <div class="float-status-dot" style="color: #16DBBD;"></div>
+                    <span>Connected</span>
+                </div>
+                <div class="float-phone-signal">
+                    <span>Signal</span>
+                    <div class="float-signal-bars">
+                        <div class="float-signal-bar"></div>
+                        <div class="float-signal-bar"></div>
+                        <div class="float-signal-bar"></div>
+                        <div class="float-signal-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="float-input-call">
+                <input type="text" class="form-control" style="border-radius: 8px 0 0 8px;" placeholder="Number">
+                <button class="float-control-btn call" style="border-radius: 0 8px 8px 0;" title="Call">
+                    <i class="ri-phone-fill"></i>
+                </button>
+            </div>
+
+            <!-- Call Controls -->
+            <div class="float-call-controls">
+                <button class="float-control-btn mute" title="Mute">
+                    <i class="ri-mic-off-line"></i>
+                </button>
+                <button class="float-control-btn volume-down" title="Volume Down">
+                    <i class="ri-volume-down-line"></i>
+                </button>
+                <button class="float-control-btn volume-up" title="Volume Up">
+                    <i class="ri-volume-up-line"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Phone Body -->
+        <div class="float-phone-body">
+
+            <!-- Number Keypad -->
+            <div class="float-number-pad">
+                <button class="float-key-btn" data-key="1">1</button>
+                <button class="float-key-btn" data-key="2">2</button>
+                <button class="float-key-btn" data-key="3">3</button>
+                <button class="float-key-btn" data-key="4">4</button>
+                <button class="float-key-btn" data-key="5">5</button>
+                <button class="float-key-btn" data-key="6">6</button>
+                <button class="float-key-btn" data-key="7">7</button>
+                <button class="float-key-btn" data-key="8">8</button>
+                <button class="float-key-btn" data-key="9">9</button>
+                <button class="float-key-btn" data-key="*">*</button>
+                <button class="float-key-btn zero" data-key="0">0</button>
+                <button class="float-key-btn" data-key="#">#</button>
+            </div>
+
+            <!-- Action Button -->
+            <div class="float-input-send">
+                <input type="text" class="form-control" placeholder="">
+                <button class="float-action-btn" id="floatActionBtn" title="Send">
+                    <i class="ri-send-plane-fill"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/script.js"></script>
+    <script>
+        // Global variables
+        let currentNumber = '';
+        
+        // Elements
+        const dialerDropdown = document.getElementById('dialerDropdown');
+        const manualDialLink = document.getElementById('manualDialLink');
+        const phoneDisplay = document.getElementById('phoneDisplay');
+        const keypadBtns = document.querySelectorAll('.keypad-btn');
+        const clearBtn = document.getElementById('clearBtn');
+        const callBtn = document.getElementById('callBtn');
+        const backspaceBtn = document.getElementById('backspaceBtn');
+        const closeDialer = document.getElementById('closeDialer');
+
+        // Navigation functionality
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.id === 'manualDialLink') {
+                    e.preventDefault();
+                    toggleDialer();
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                } else if (!this.hasAttribute('data-bs-toggle')) {
+                    e.preventDefault();
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Dialer functionality
+        function showDialer() {
+            dialerDropdown.classList.add('show');
+            updateDisplay();
+        }
+
+        function hideDialer() {
+            dialerDropdown.classList.remove('show');
+            currentNumber = '';
+            updateDisplay();
+        }
+
+        function toggleDialer() {
+            if (dialerDropdown.classList.contains('show')) {
+                hideDialer();
+            } else {
+                showDialer();
+            }
+        }
+
+        // Update display
+        function updateDisplay() {
+            if (currentNumber === '') {
+                phoneDisplay.textContent = 'Enter number...';
+                phoneDisplay.style.color = '#6c757d';
+            } else {
+                phoneDisplay.textContent = formatPhoneNumber(currentNumber);
+                phoneDisplay.style.color = '#495057';
+            }
+        }
+
+        // Format phone number for display
+        function formatPhoneNumber(number) {
+            if (number.length <= 3) return number;
+            if (number.length <= 6) return number.slice(0, 3) + '-' + number.slice(3);
+            if (number.length <= 10) return number.slice(0, 3) + '-' + number.slice(3, 6) + '-' + number.slice(6);
+            return number.slice(0, 3) + '-' + number.slice(3, 6) + '-' + number.slice(6, 10) + (number.length > 10 ? ' ext.' + number.slice(10) : '');
+        }
+
+        // Close dialer
+        closeDialer.addEventListener('click', hideDialer);
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!dialerDropdown.contains(e.target) && 
+                !manualDialLink.contains(e.target)) {
+                hideDialer();
+            }
+        });
+
+        // Keypad button clicks
+        keypadBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const number = this.getAttribute('data-number');
+                if (currentNumber.length < 15) {
+                    currentNumber += number;
+                    updateDisplay();
+                    
+                    // Add visual feedback
+                    this.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 100);
+                }
+            });
+        });
+
+        // Clear button
+        clearBtn.addEventListener('click', function() {
+            currentNumber = '';
+            updateDisplay();
+            this.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 100);
+        });
+
+        // Backspace button
+        backspaceBtn.addEventListener('click', function() {
+            currentNumber = currentNumber.slice(0, -1);
+            updateDisplay();
+            this.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 100);
+        });
+
+        // Call button
+        callBtn.addEventListener('click', function() {
+            if (currentNumber !== '') {
+                // Simulate call initiation
+                this.style.transform = 'scale(0.9)';
+                this.innerHTML = '<i class="ri-loader-4-line" style="animation: spin 1s linear infinite;"></i>';
+                
+                setTimeout(() => {
+                    alert(`Initiating call to: ${formatPhoneNumber(currentNumber)}`);
+                    this.innerHTML = '<i class="ri-phone-fill"></i>';
+                    this.style.transform = 'scale(1)';
+                    
+                    // Hide dropdown and reset
+                    hideDialer();
+                }, 1000);
+            } else {
+                // Shake animation for empty number
+                phoneDisplay.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    phoneDisplay.style.animation = '';
+                }, 500);
+            }
+        });
+
+        // Keyboard support for dialer
+        document.addEventListener('keydown', function(e) {
+            if (dialerDropdown.classList.contains('show')) {
+                if (e.key >= '0' && e.key <= '9' || e.key === '*' || e.key === '#') {
+                    if (currentNumber.length < 15) {
+                        currentNumber += e.key;
+                        updateDisplay();
+                    }
+                } else if (e.key === 'Backspace') {
+                    e.preventDefault();
+                    currentNumber = currentNumber.slice(0, -1);
+                    updateDisplay();
+                } else if (e.key === 'Delete') {
+                    currentNumber = '';
+                    updateDisplay();
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    callBtn.click();
+                } else if (e.key === 'Escape') {
+                    hideDialer();
+                }
+            }
+        });
+
+        // Sidebar toggle for mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('show');
+        });
+
+        // Initialize display
+        updateDisplay();
+    </script>
+</body>
+</html>
